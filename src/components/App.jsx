@@ -16,10 +16,16 @@ export class App extends Component {
   };
 
   formSubmitHandler = data => {
+    const contExist = this.state.contacts.find(contact =>
+      contact.name.toLowerCase() === data.name.toLocaleLowerCase());
+    
     data.id = nanoid();
     const newContacts = this.state.contacts;
     newContacts.push(data);
-    return this.setState({ contacts: newContacts });
+
+    return contExist
+      ? alert(`${data.name} is already in contacts list!`)
+      : this.setState({ contacts: newContacts });
   };
 
   filterChange = e => {
@@ -34,8 +40,8 @@ export class App extends Component {
   };
 
   render() {
-    
     const visibleContacts = this.getVisibleContacts();
+
     return (
       <div>
         <h1>Phonebook</h1>
